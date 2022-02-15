@@ -1,0 +1,86 @@
+#text_in_the_image{
+		float: left;
+		margin-top: 50px;
+		margin-left: 130px;
+		text-align: left;
+	}
+	
+	#text_in_the_image h1{
+
+		font-size: 5em;
+		font-family: 'Impact';
+	}
+	
+	#text_in_the_image h3{
+
+		font-size: 3em;
+		font-family: 'Copperplate';
+	}	
+	
+	#text_in_the_image p{
+
+		font-size: 8em;
+		font-family: 'Impact';
+	}	
+	
+	#text_in_the_image p span{
+	
+		text-align: center;
+		font-family: 'Impact';
+		color: red;
+		text-shadow: 3px 4px 5px gray;
+	}
+	
+	.container{
+		margin-top: 50px;
+	}
+	
+	.products li{
+		list-style: none;
+	}
+	
+	.products li .scale{
+		text-align: center;
+		font-family: '나눔명조 Bold';
+	}
+	
+	.nav li{
+		cursor: pointer;
+	}
+	
+	 .swiper {
+        width: 100%;
+        height: 100%;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+      .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .swiper {
+        margin-left: auto;
+        margin-right: auto;
+      }

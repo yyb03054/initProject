@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move &apos;UploadFileUtils&apos; to &apos;test&apos;" description="Move &apos;UploadFileUtils&apos; to &apos;test&apos;" destination="/test" element1="/workspace/UploadFileUtils" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="1" stamp="1637887102158" updateReferences="true"/>
+</session>

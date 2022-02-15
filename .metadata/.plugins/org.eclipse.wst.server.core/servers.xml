@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<servers>
+  <server auto-publish-setting="2" auto-publish-time="1" configuration-id="/Servers2/Tomcat v8.5 Server at localhost-config" deployDir="wtpwebapps" hostname="localhost" id="Tomcat v8.5 Server at localhost" name="Tomcat v8.5 Server at localhost8083" runtime-id="Apache Tomcat v8.5" server-type="org.eclipse.jst.server.tomcat.85" server-type-id="org.eclipse.jst.server.tomcat.85" start-timeout="90" stop-timeout="15" testEnvironment="true" timestamp="7">
+    <list key="modules" value0="examination::org.eclipse.jst.jee.server:examination::jst.web::2.5"/>
+  </server>
+  <server auto-publish-setting="2" auto-publish-time="1" configuration-id="/Servers2/Tomcat v8.5 Server at localhost (2)-config" deployDir="wtpwebapps" hostname="localhost" id="Tomcat v8.5 Server at localhost (2)" name="Tomcat v8.5 Server at localhost (2)" runtime-id="Apache Tomcat v8.5" server-type="org.eclipse.jst.server.tomcat.85" server-type-id="org.eclipse.jst.server.tomcat.85" start-timeout="45" stop-timeout="15" testEnvironment="true" timestamp="2">
+    <list key="modules" value0="test1::org.eclipse.jst.jee.server:test1::jst.web::2.5"/>
+  </server>
+  <server auto-publish-setting="2" auto-publish-time="1" configuration-id="/Servers2/Tomcat v8.5 Server at localhost (3)-config" deployDir="wtpwebapps" hostname="localhost" id="Tomcat v8.5 Server at localhost (3)" name="resume8083" runtime-id="Apache Tomcat v8.5" server-type="org.eclipse.jst.server.tomcat.85" server-type-id="org.eclipse.jst.server.tomcat.85" start-timeout="60" stop-timeout="15" testEnvironment="true" timestamp="12">
+    <list key="modules" value0="resume::org.eclipse.jst.jee.server:resume::jst.web::2.5"/>
+  </server>
+  <server auto-publish-setting="2" auto-publish-time="1" configuration-id="/Servers2/Tomcat v8.5 Server at localhost (4)-config" deployDir="wtpwebapps" hostname="localhost" id="Tomcat v8.5 Server at localhost (4)" name="init-resume8082" runtime-id="Apache Tomcat v8.5" server-type="org.eclipse.jst.server.tomcat.85" server-type-id="org.eclipse.jst.server.tomcat.85" start-timeout="45" stop-timeout="15" testEnvironment="true" timestamp="3">
+    <list key="modules" value0="init-resume::org.eclipse.jst.jee.server:init-resume::jst.web::2.5"/>
+  </server>
+</servers>

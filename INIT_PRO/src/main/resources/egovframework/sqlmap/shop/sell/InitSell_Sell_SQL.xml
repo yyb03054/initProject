@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Sell">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.shop.sell.service.SellDefaultVO"/>
+
+	<resultMap id="sell" class="egovframework.shop.sell.service.SellVO">
+      <result property="prdNum" column="prd_num"/>
+      <result property="prdName" column="prd_name"/>
+      <result property="brdCode" column="brd_code"/>
+      <result property="brdName" column="brd_name"/>
+      <!-- <result property="imgAddress" column="img_address"/> -->
+      <result property="prdPrice" column="prd_price"/>
+      <result property="shopCode" column="shop_code"/>
+      <result property="shopName" column="shop_name"/>
+      <result property="delPrice" column="del_price"/>
+      <result property="delCode" column="del_code"/>
+      <result property="delName" column="del_name"/>
+      <result property="overseasDel" column="overseas_del"/>
+      <result property="saleNum" column="sale_num"/>
+      <result property="salePer" column="sale_per"/>
+      <result property="saleName" column="sale_name"/>
+      <result property="saleSdate" column="sale_sdate"/>
+      <result property="saleFdate" column="sale_fdate"/>
+   </resultMap>
+	 <resultMap id="product" class="egovframework.shop.sell.service.SellVO">
+      <result property="prdNum" column="prd_num"/>
+      <result property="prdName" column="prd_name"/>
+      <result property="brdCode" column="brd_code"/>
+      <result property="brdName" column="brd_name"/>
+   </resultMap>
+   <resultMap id="sale" class="egovframework.shop.sell.service.SellVO">
+      <result property="saleNum" column="sale_num"/>
+      <result property="saleName" column="sale_name"/>
+      <result property="salePer" column="sale_per"/>
+      <result property="prdNum" column="prd_num"/>
+      <result property="shopCode" column="shop_code"/>
+      <result property="shopName" column="shop_name"/>
+      <result property="saleSdate" column="sale_sdate"/>
+      <result property="saleFdate" column="sale_fdate"/>
+   </resultMap>
+   
+   <resultMap id="shop" class="egovframework.shop.sell.service.SellVO">
+      <result property="shopCode" column="shop_code"/>
+      <result property="shopName" column="shop_name"/>
+      <result property="ceo" column="ceo"/>
+      <result property="shopAdd" column="shop_add"/>
+   </resultMap>
+   
+   <resultMap id="order" class="egovframework.shop.sell.service.SellVO">
+      <result property="orderNum" column="order_num"/>
+      <result property="prdNum" column="prd_num"/>
+      <result property="prdName" column="prd_name"/>
+      <result property="shopCode" column="shop_code"/>
+      <result property="shopName" column="shop_name"/>
+      <result property="delCode" column="del_code"/>
+      <result property="delName" column="del_name"/>
+      <result property="prdPrice" column="prd_price"/>
+      <result property="prdPriceSale" column="prd_price_sale"/>
+      <result property="delPrice" column="del_price"/>
+      <result property="totalPrice" column="total_price"/>
+      <result property="salePer" column="sale_per"/>
+      <result property="prdCnt" column="prd_cnt"/>
+      <result property="userName" column="user_name"/>
+      <result property="postCode" column="post_code"/>
+      <result property="roadAdd" column="road_add"/>
+      <result property="detailAdd" column="detail_add"/>
+      <result property="userEmail" column="user_email"/>
+      <result property="userPhone" column="user_phone"/>
+      <result property="delMessage" column="del_message"/>
+      <result property="orderDate" column="order_date"/>
+   </resultMap>
+   
+   <!-- <resultMap id="member" class="egovframework.shop.sell.service.MemberVO">
+						<result property="userId" column="user_id"/>
+      <result property="userPw" column="user_pw"/>
+      <result property="userName" column="user_name"/>
+      <result property="userEmail" column="user_email"/>
+      <result property="userRegdate" column="user_regdate"/>
+   </resultMap> -->
+
+	 <insert id="sellDAO.insertProduct">
+          
+      INSERT
+          INTO PRODUCT (PRD_NUM, PRD_NAME, BRD_CODE) 
+        VALUES (SEQ_PRD.NEXTVAL, #prdName#, #brdCode#)
+        
+   </insert>
+   
+   
+   <insert id="sellDAO.insertSell">
+          
+      INSERT
+          INTO PRD_SELL (PRD_NUM, SHOP_CODE, PRD_PRICE, DEL_PRICE, DEL_CODE, OVERSEAS_DEL) 
+        VALUES (#prdNum#, #shopCode#, #prdPrice#, #delPrice#, #delCode#, #overseasDel#)
+        
+   </insert>
+   <insert id="sellDAO.insertOrder">
+          
+      INSERT
+          INTO ORDER_INFO (ORDER_NUM, PRD_NUM, SHOP_CODE, DEL_CODE, PRD_PRICE, PRD_PRICE_SALE, DEL_PRICE, TOTAL_PRICE, SALE_PER
+                         , PRD_CNT, USER_NAME, POST_CODE, ROAD_ADD, DETAIL_ADD
+                         , USER_EMAIL, USER_PHONE, DEL_MESSAGE, ORDER_DATE) 
+        VALUES (SEQ_ORDER.NEXTVAL, #prdNum#, #shopCode#, #delCode#, #prdPrice#, #prdPriceSale#, #delPrice#, (#prdPriceSale#*#prdCnt#+#delPrice#), NVL(#salePer#, 0)
+              , #prdCnt#, #userName#, #postCode#, #roadAdd#, #detailAdd#
+              , #userEmail#, #userPhone#, #delMessage#, SYSDATE)
+        
+   </insert>
+   
+   <insert id="sellDAO.insertImage">
+          
+      INSERT
+          INTO IMAGE (IMG_NUM, IMG_ADDRESS, PRD_NUM, MAIN_IMG) 
+        VALUES (SEQ_IMG.NEXTVAL, #imgAddress#, #prdNum#, 'N')
+        
+   </insert>
+   
+   <insert id="sellDAO.insertShop">
+          
+      INSERT
+          INTO SHOP (SHOP_CODE, SHOP_NAME, CEO, SHOP_ADD) 
+        VALUES (CONCAT('SHOP', LPAD(SEQ_SHOP.NEXTVAL, 3, '0')), #shopName#, #ceo#, #shopAdd#)
+
+   </insert>
+   
+   <insert id="sellDAO.insertSale">
+   
+      INSERT
+          INTO SALE (SALE_NUM, SALE_NAME, SALE_PER, PRD_NUM, SHOP_CODE, SALE_SDATE, SALE_FDATE)
+        VALUES (SEQ_SALE.NEXTVAL, #saleName#, #salePer#, #prdNum#, #shopCode#, #saleSdate#, #saleFdate#)
+        
+   </insert>
+   
+   <!-- 콤보박스 -->
+   <select id="sellDAO.selectBrand" parameterClass="searchVO" resultClass="egovMap">
+          
+      SELECT * FROM BRAND
+        
+   </select>
+   <select id="sellDAO.selectDelivery" parameterClass="searchVO" resultClass="egovMap">
+          
+      SELECT * FROM DELIVERY
+        
+   </select>
+   <select id="sellDAO.selectShop" parameterClass="searchVO" resultClass="egovMap">
+          
+     SELECT *
+          FROM SHOP A
+          LEFT OUTER JOIN (SELECT * FROM PRD_SELL WHERE PRD_NUM = #prdNum#) B
+            ON A.SHOP_CODE = B.SHOP_CODE
+         WHERE B.SHOP_CODE IS NULL
+        
+   </select>
+    <select id="sellDAO.selectShopList" parameterClass="searchVO" resultClass="egovMap">
+     SELECT T.* FROM     
+     (SELECT SHOP_CODE, SHOP_NAME, CEO, SHOP_ADD, ROW_NUMBER() OVER(ORDER BY SHOP_CODE) AS ROW_NUMBER FROM SHOP) T
+      <![CDATA[
+           WHERE ROW_NUMBER >= #pageUnit# * #pageIndex# - (#pageUnit# - 1) 
+             AND ROW_NUMBER <= #pageUnit# * #pageIndex#
+           ]]>   
+           ORDER BY ROW_NUMBER
+   </select>
+   
+   <select id="sellDAO.selectReport" parameterClass="searchVO" resultClass="egovMap">
+     SELECT O.PRD_NUM, PRD_NAME, (SELECT SUM(TOTAL_PRICE) FROM ORDER_INFO WHERE SHOP_CODE = 'SHOP001' AND PRD_NUM = O.PRD_NUM GROUP BY SHOP_CODE) SHOP1, 
+       	 (SELECT SUM(PRD_CNT) FROM ORDER_INFO WHERE SHOP_CODE = 'SHOP001' AND PRD_NUM = O.PRD_NUM GROUP BY SHOP_CODE) SHOP1C,
+       	 (SELECT SUM(TOTAL_PRICE) FROM ORDER_INFO WHERE SHOP_CODE = 'SHOP002' AND PRD_NUM = O.PRD_NUM GROUP BY SHOP_CODE) SHOP2, 
+       	 (SELECT SUM(PRD_CNT) FROM ORDER_INFO WHERE SHOP_CODE = 'SHOP002' AND PRD_NUM = O.PRD_NUM GROUP BY SHOP_CODE) SHOP2C, 
+       	 (SELECT SUM(TOTAL_PRICE) FROM ORDER_INFO WHERE SHOP_CODE = 'SHOP003' AND PRD_NUM = O.PRD_NUM GROUP BY SHOP_CODE) SHOP3, 
+       	 (SELECT SUM(PRD_CNT) FROM ORDER_INFO WHERE SHOP_CODE = 'SHOP003' AND PRD_NUM = O.PRD_NUM GROUP BY SHOP_CODE) SHOP3C, 
+       	 (SELECT SUM(TOTAL_PRICE) FROM ORDER_INFO WHERE SHOP_CODE = 'SHOP004' AND PRD_NUM = O.PRD_NUM GROUP BY SHOP_CODE) SHOP4, 
+       	 (SELECT SUM(PRD_CNT) FROM ORDER_INFO WHERE SHOP_CODE = 'SHOP004' AND PRD_NUM = O.PRD_NUM GROUP BY SHOP_CODE) SHOP4C
+       	 FROM ORDER_INFO O, PRODUCT P
+       	WHERE 1=1 
+       	  AND O.PRD_NUM = P.PRD_NUM
+       	 <isEqual prepend="AND" property="searchCondition" compareValue="0">
+		      1=1
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchConditionY" compareValue="1">
+		      TO_CHAR(ORDER_DATE, 'YYYY') = '2020'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchConditionY" compareValue="2">
+		      TO_CHAR(ORDER_DATE, 'YYYY') = '2021'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="1">
+		      TO_CHAR(ORDER_DATE, 'MM') = '1'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="2">
+		      TO_CHAR(ORDER_DATE, 'MM') = '2'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="3">
+		      TO_CHAR(ORDER_DATE, 'MM') = '3'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="4">
+		      TO_CHAR(ORDER_DATE, 'MM') = '4'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="5">
+		      TO_CHAR(ORDER_DATE, 'MM') = '5'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="6">
+		      TO_CHAR(ORDER_DATE, 'MM') = '6'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="7">
+		      TO_CHAR(ORDER_DATE, 'MM') = '7'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="8">
+		      TO_CHAR(ORDER_DATE, 'MM') = '8'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="9">
+		      TO_CHAR(ORDER_DATE, 'MM') = '9'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="10">
+		      TO_CHAR(ORDER_DATE, 'MM') = '10'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="11">
+		      TO_CHAR(ORDER_DATE, 'MM') = '11'
+		 </isEqual>
+		 <isEqual prepend="AND" property="searchCondition" compareValue="12">
+		      TO_CHAR(ORDER_DATE, 'MM') = '12'
+		 </isEqual>
+       	 GROUP BY O.PRD_NUM, P.PRD_NAME
+   </select>
+   
+   
+   <select id="sellDAO.selectOrderList" parameterClass="searchVO" resultClass="egovMap">
+   <![CDATA[
+   SELECT * FROM
+     (SELECT O.*, P.PRD_NAME, S.SHOP_NAME, ROW_NUMBER() OVER(ORDER BY O.ORDER_NUM DESC) AS RN
+       FROM ORDER_INFO O, PRODUCT P, SHOP S 
+      WHERE O.PRD_NUM = P.PRD_NUM
+        AND O.SHOP_CODE = S.SHOP_CODE)
+      WHERE RN >= #pageUnit# * #pageIndex# - (#pageUnit# - 1) 
+        AND RN <= #pageUnit# * #pageIndex#
+      ORDER BY RN
+      ]]>
+   </select>
+   
+   <select id="sellDAO.selectPeriod" parameterClass="searchVO" resultClass="egovMap">
+          <![CDATA[
+      SELECT *
+ 						 FROM SALE  
+						 WHERE PRD_NUM = #prdNum#
+						   AND SHOP_CODE = #shopCode#
+						   AND TO_DATE(SALE_FDATE, 'YYYY-MM-DD')>= #saleSdate#
+						   AND TO_DATE(SALE_SDATE, 'YYYY-MM-DD')<= #saleFdate#
+        ]]>
+   </select>
+    <select id="sellDAO.selectSaleMax" parameterClass="searchVO" resultClass="egovMap">
+         <![CDATA[
+   SELECT * 
+     FROM SALE
+    WHERE SALE_NUM = (SELECT MAX(SALE_NUM) KEEP(DENSE_RANK FIRST ORDER BY SALE_PER DESC) FROM
+																					(SELECT * FROM SALE S, PRD_SELL PS WHERE SALE_SDATE <= SYSDATE AND SYSDATE <= SALE_FDATE
+																					    AND PS.PRD_NUM = #prdNum#
+																					    AND PS.SHOP_CODE = #shopCode# ) T)
+        ]]>
+    </select>
+    
+    
+    <select id="sellDAO.selectPrdMin" parameterClass="searchVO" resultClass="egovMap">
+          
+      SELECT * 
+        FROM PRD_SELL
+       WHERE SHOP_CODE = (SELECT MAX(SHOP_CODE) KEEP(DENSE_RANK FIRST ORDER BY PRD_PRICE ) 
+                            FROM (SELECT *
+                            FROM PRD_SELL PS
+                            WHERE PS.PRD_NUM = #prdNum# 
+                            	  )
+                         T)
+       	 AND PRD_NUM = #prdNum#
+        
+   </select>
+    
+  <select id="sellDAO.selectImage" parameterClass="searchVO" resultClass="egovMap">
+          
+      SELECT * FROM IMAGE WHERE PRD_NUM = #prdNum# ORDER BY MAIN_IMG DESC
+        
+   </select>
+    <select id="sellDAO.selectMainImage" parameterClass="searchVO" resultClass="egovMap">
+          
+      SELECT * FROM IMAGE I, PRODUCT P
+       WHERE MAIN_IMG='Y'
+         AND I.PRD_NUM = P.PRD_NUM
+       ORDER BY DBMS_RANDOM.VALUE
+        
+   </select>
+   
+   <select id="sellDAO.selectSale" parameterClass="searchVO" resultClass="egovMap">
+          
+      SELECT SALE_NUM, SALE_NAME, SALE_PER, PRD_NUM, SHOP_CODE
+           , TO_CHAR(SALE_SDATE, 'YYYY-MM-DD') SALE_SDATE
+           , TO_CHAR(SALE_SDATE, 'YYYYMMDD') SALE_SDATE_C
+           , TO_CHAR(SALE_FDATE, 'YYYY-MM-DD') SALE_FDATE
+           , TO_CHAR(SALE_FDATE, 'YYYYMMDD') SALE_FDATE_C
+        FROM SALE 
+       WHERE PRD_NUM = #prdNum# AND SHOP_CODE = #shopCode# 
+       ORDER BY SALE_SDATE
+        
+   </select>
+   
+    <select id="sellDAO.selectSaleNum" resultMap="sale">
+          
+      SELECT S.SALE_NUM
+           , S.SALE_NAME
+           , S.SALE_PER
+           , S.PRD_NUM
+           , S.SHOP_CODE
+           , TO_CHAR(SALE_SDATE, 'YYYY-MM-DD') SALE_SDATE
+           , TO_CHAR(SALE_FDATE, 'YYYY-MM-DD') SALE_FDATE
+           , SH.SHOP_NAME
+        FROM SALE S,
+             SHOP SH
+       WHERE SALE_NUM = #saleNum#
+         AND S.SHOP_CODE = SH.SHOP_CODE
+        
+   </select>
+   
+   <update id="sellDAO.updateSale">
+      <![CDATA[
+ 
+       UPDATE SALE
+          SET
+              SALE_NAME = #saleName#
+            , SALE_PER = #salePer#
+            , SALE_SDATE = #saleSdate#
+            , SALE_FDATE = #saleFdate#
+          WHERE SALE_NUM = #saleNum#
+
+      
+      ]]>
+   </update>
+   
+    <update id="sellDAO.updateShop">
+      <![CDATA[
+       UPDATE SHOP
+          SET
+              SHOP_NAME = #shopName#
+            , CEO = #ceo#
+            , SHOP_ADD = #shopAdd#
+          WHERE SHOP_CODE = #shopCode#
+      ]]>
+   </update>
+   
+   <!-- 업데이트 -->
+   <update id="sellDAO.updateProduct">
+      <![CDATA[
+ 
+       UPDATE PRODUCT
+          SET
+              PRD_NAME = #prdName#
+            , BRD_CODE = #brdCode#
+          WHERE PRD_NUM = #prdNum#
+
+      
+      ]]>
+   </update>
+   
+   <update id="sellDAO.updateImgY">
+       UPDATE IMAGE
+          SET
+              MAIN_IMG = 'Y'
+          WHERE PRD_NUM = #prdNum#
+            AND IMG_NUM = #imgNum#
+   </update>
+   
+   <update id="sellDAO.updateImgN">
+       UPDATE IMAGE
+          SET
+              MAIN_IMG = 'N'
+          WHERE PRD_NUM = #prdNum#
+   </update>
+   
+      <update id="sellDAO.updateSell">
+      <![CDATA[
+      MERGE
+       INTO PRD_SELL AA
+      USING
+          (
+           SELECT D.PRD_NUM
+                  , D.PRD_PRICE
+                  , D.DEL_PRICE
+                  , D.DEL_CODE
+                  , D.SHOP_CODE
+                  , D.OVERSEAS_DEL
+                  , E.DEL_NAME
+                  , F.SHOP_NAME
+               FROM PRD_SELL D
+               LEFT JOIN PRODUCT A ON D.PRD_NUM = A.PRD_NUM
+               LEFT JOIN DELIVERY E ON D.DEL_CODE = E.DEL_CODE
+               LEFT JOIN SHOP F ON D.SHOP_CODE = F.SHOP_CODE
+              WHERE 1 = 1
+            ) TT
+           ON 
+            (
+             TT.PRD_NUM = #prdNum# 
+             AND AA.PRD_NUM = TT.PRD_NUM
+             AND AA.SHOP_CODE = TT.SHOP_CODE 
+             AND AA.SHOP_CODE = #shopCode# 
+            )
+         WHEN MATCHED THEN UPDATE
+          SET
+             AA.PRD_PRICE = #prdPrice#
+           , AA.DEL_PRICE = #delPrice#
+           , AA.OVERSEAS_DEL = #overseasDel#
+           , AA.DEL_CODE = #delCode#
+      
+      ]]>
+   </update>
+   
+   <!-- 딜리트 -->
+   <delete id="sellDAO.deleteProduct">
+      <![CDATA[
+         DELETE FROM PRODUCT 
+          WHERE PRD_NUM = #prdNum#
+      ]]>
+   </delete>
+   
+   
+   <delete id="sellDAO.deleteSell">
+   
+         DELETE FROM PRD_SELL 
+          WHERE SHOP_CODE = #shopCode#
+            AND PRD_NUM = #prdNum#
+             
+   </delete>
+   
+   <delete id="sellDAO.deleteImg">
+   
+         DELETE FROM IMAGE 
+          WHERE IMG_NUM = #imgNum#
+             
+   </delete>
+   
+   <delete id="sellDAO.deleteSale">
+   
+         DELETE FROM SALE 
+          WHERE SALE_NUM = #saleNum#
+             
+   </delete>
+   
+   <delete id="sellDAO.deleteShop">
+   
+         DELETE FROM SHOP
+          WHERE SHOP_CODE = #shopCode#
+             
+   </delete>
+    
+    <!-- 리스트 셀렉 -->
+    <select id="sellDAO.selectProduct" resultMap="product">
+          SELECT T.*
+            FROM
+               ( 
+                SELECT A.PRD_NUM
+                     , A.PRD_NAME
+                     , A.BRD_CODE
+                     , B.BRD_NAME
+                     
+                  FROM PRODUCT A
+                  LEFT JOIN BRAND B ON A.BRD_CODE = B.BRD_CODE
+                 
+                 WHERE 1 = 1
+               ) T
+           WHERE 1 = 1
+           AND PRD_NUM = #prdNum#
+           
+    </select>
+    
+    <select id="sellDAO.selectSell" resultMap="sell">
+        <![CDATA[
+          SELECT T.*
+            FROM
+               ( 
+                SELECT A.PRD_NUM
+                     , A.PRD_NAME
+                     , A.BRD_CODE
+                     , B.BRD_NAME
+                     , D.PRD_PRICE
+                     , D.DEL_PRICE
+                     , D.DEL_CODE
+                     , D.SHOP_CODE
+                     , D.OVERSEAS_DEL
+                     , E.DEL_NAME
+                     , F.SHOP_NAME 
+                     , (SELECT SALE_NUM FROM SALE WHERE PRD_NUM = D.PRD_NUM AND SHOP_CODE = D.SHOP_CODE and
+                                       TO_CHAR(SALE_SDATE, 'YYYYMMDD') <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= TO_CHAR(SALE_FDATE, 'YYYYMMDD')) SALE_NUM
+																				 , (SELECT SALE_NAME FROM SALE WHERE PRD_NUM = D.PRD_NUM AND SHOP_CODE = D.SHOP_CODE and
+                                       TO_CHAR(SALE_SDATE, 'YYYYMMDD') <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= TO_CHAR(SALE_FDATE, 'YYYYMMDD')) SALE_NAME
+                     , (SELECT SALE_PER FROM SALE WHERE PRD_NUM = D.PRD_NUM AND SHOP_CODE = D.SHOP_CODE and
+                                       TO_CHAR(SALE_SDATE, 'YYYYMMDD') <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= TO_CHAR(SALE_FDATE, 'YYYYMMDD')) SALE_PER
+                     , (SELECT TO_CHAR(SALE_SDATE, 'YYYY-MM-DD') FROM SALE WHERE PRD_NUM = D.PRD_NUM AND SHOP_CODE = D.SHOP_CODE and
+                                       TO_CHAR(SALE_SDATE, 'YYYYMMDD') <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= TO_CHAR(SALE_FDATE, 'YYYYMMDD')) SALE_SDATE
+                     , (SELECT TO_CHAR(SALE_FDATE,'YYYY-MM-DD') FROM SALE WHERE PRD_NUM = D.PRD_NUM AND SHOP_CODE = D.SHOP_CODE and
+                                       TO_CHAR(SALE_SDATE, 'YYYYMMDD') <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= TO_CHAR(SALE_FDATE, 'YYYYMMDD')) SALE_FDATE
+                  FROM PRODUCT A
+                  LEFT JOIN BRAND B ON B.BRD_CODE = A.BRD_CODE
+                  LEFT JOIN PRD_SELL D ON D.PRD_NUM = A.PRD_NUM
+                  LEFT JOIN DELIVERY E ON E.DEL_CODE = D.DEL_CODE
+                  LEFT JOIN SHOP F ON F.SHOP_CODE = D.SHOP_CODE
+                 WHERE 1 = 1
+                   
+               ) T
+           WHERE 1 = 1
+             AND PRD_NUM = #prdNum#
+             AND SHOP_CODE = #shopCode#
+             
+           
+            
+        ]]>
+    </select>
+    
+    <select id="sellDAO.selectShopDetail" resultMap="shop">
+        <![CDATA[
+          SELECT * FROM SHOP WHERE SHOP_CODE = #shopCode#
+        ]]>
+    </select>
+    
+    <select id="sellDAO.selectOrder" resultMap="order">
+        <![CDATA[
+          SELECT O.*, P.PRD_NAME, S.SHOP_NAME, D.DEL_NAME
+            FROM ORDER_INFO O, PRODUCT P, SHOP S, DELIVERY D 
+           WHERE O.ORDER_NUM = #orderNum#
+             AND O.PRD_NUM = P.PRD_NUM
+             AND O.SHOP_CODE = S.SHOP_CODE
+             AND O.DEL_CODE = D.DEL_CODE
+        ]]>
+    </select>
+    <!-- <select id="sellDAO.selectSell" resultMap="sell">
+        <![CDATA[
+        
+       ]]>
+    </select> -->
+   
+   <select id="sellDAO.selectProductList" parameterClass="searchVO" resultClass="egovMap">
+         <![CDATA[
+          SELECT T.*
+            FROM
+               (
+                 SELECT A.PRD_NUM
+                , A.PRD_NAME
+                , A.BRD_CODE
+                , B.BRD_NAME
+                , C.IMG_ADDRESS
+                , C.MAIN_IMG 
+                , ROW_NUMBER() OVER (ORDER BY A.PRD_NUM DESC) AS ROW_NUMBER
+                , (SELECT MIN(PRD_PRICE) FROM PRD_SELL WHERE PRD_NUM = A.PRD_NUM) MIN_PRICE
+                , (SELECT MIN((SELECT 
+                                 ((1-sale_per/100)*ps.prd_price) FROM SALE WHERE prd_num = ps.prd_num AND shop_code=ps.shop_code and
+                                      TO_CHAR(SALE_SDATE, 'YYYYMMDD') <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= TO_CHAR(SALE_FDATE, 'YYYYMMDD')))
+                                      FROM PRD_SELL ps 
+                                      WHERE PRD_NUM = A.PRD_NUM) SALE_MIN_PRICE
+             FROM PRODUCT A
+               , BRAND B
+               , IMAGE C
+           WHERE 1=1
+             AND A.BRD_CODE = B.BRD_CODE 
+             AND C.PRD_NUM(+) = A.PRD_NUM
+             AND C.MAIN_IMG(+) = 'Y'
+             AND (A.PRD_NAME LIKE '%' || #searchKeyword# || '%'
+              OR B.BRD_NAME LIKE '%' || #searchKeyword# || '%')
+            
+               ) T
+               
+           WHERE ROW_NUMBER >= #pageUnit# * #pageIndex# - (#pageUnit# - 1) 
+             AND ROW_NUMBER <= #pageUnit# * #pageIndex#
+           ]]>     
+            
+         ORDER BY ROW_NUMBER
+                
+            
+   </select>
+   <select id="sellDAO.selectProductListUser" parameterClass="searchVO" resultClass="egovMap">
+         <![CDATA[
+         SELECT * FROM(
+          SELECT T.*, ROW_NUMBER() OVER (ORDER BY T.PRD_NUM DESC) AS ROW_NUMBER
+            FROM
+               (
+                 SELECT A.PRD_NUM
+                , A.PRD_NAME
+                , A.BRD_CODE
+                , B.BRD_NAME
+                , C.IMG_ADDRESS
+                , C.MAIN_IMG
+                , (SELECT MIN(PRD_PRICE) FROM PRD_SELL WHERE PRD_NUM = A.PRD_NUM) MIN_PRICE
+                , (SELECT MIN((SELECT 
+                                 ((1-sale_per/100)*ps.prd_price) FROM SALE WHERE prd_num = ps.prd_num AND shop_code=ps.shop_code and
+                                      TO_CHAR(SALE_SDATE, 'YYYYMMDD') <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= TO_CHAR(SALE_FDATE, 'YYYYMMDD')))
+                                      FROM PRD_SELL ps 
+                                      WHERE PRD_NUM = A.PRD_NUM) SALE_MIN_PRICE
+             FROM PRODUCT A
+               , BRAND B
+               , IMAGE C
+           WHERE 1=1
+             AND A.BRD_CODE = B.BRD_CODE 
+             AND C.PRD_NUM(+) = A.PRD_NUM
+             AND C.MAIN_IMG(+) = 'Y'
+             AND (A.PRD_NAME LIKE '%' || #searchKeyword# || '%'
+              OR B.BRD_NAME LIKE '%' || #searchKeyword# || '%')
+            
+               ) T
+           WHERE T.MIN_PRICE IS NOT NULL
+               )
+               
+           WHERE ROW_NUMBER >= #pageUnit# * #pageIndex# - (#pageUnit# - 1) 
+             AND ROW_NUMBER <= #pageUnit# * #pageIndex#
+           ]]>     
+            
+         ORDER BY ROW_NUMBER
+                
+            
+   </select>
+
+   <select id="sellDAO.selectSellList" parameterClass="searchVO" resultClass="egovMap">
+         <![CDATA[
+          SELECT T.*
+            FROM
+               (
+                SELECT P.PRD_NUM
+                     , P.PRD_NAME
+                     , P.BRD_CODE
+                     , B.BRD_NAME
+                     , I.IMG_ADDRESS
+                					, I.MAIN_IMG 
+                     , PS.PRD_PRICE
+                     , PS.DEL_PRICE
+                     , PS.SHOP_CODE
+                     , S.SHOP_NAME
+                     , ROW_NUMBER() OVER (ORDER BY PS.PRD_PRICE, PS.SHOP_CODE) AS ROW_NUMBER
+                     , (SELECT ((1-SALE_PER/100)*PS.PRD_PRICE) FROM SALE WHERE PRD_NUM = PS.PRD_NUM AND SHOP_CODE = PS.SHOP_CODE and
+                                       TO_CHAR(SALE_SDATE, 'YYYYMMDD') <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= TO_CHAR(SALE_FDATE, 'YYYYMMDD')) SALE_PRICE
+                  FROM PRODUCT P, BRAND B, IMAGE I, PRD_SELL PS, SHOP S
+                WHERE 1=1
+                AND P.PRD_NUM = #prdNum#
+                AND P.BRD_CODE = B.BRD_CODE
+                AND P.PRD_NUM = I.PRD_NUM(+)
+                AND P.PRD_NUM = PS.PRD_NUM
+                AND S.SHOP_CODE = PS.SHOP_CODE
+                AND I.MAIN_IMG(+) = 'Y'
+
+               ) T
+               
+           
+           WHERE ROW_NUMBER >= #pageUnit# * #pageIndex# - (#pageUnit# - 1) 
+             AND ROW_NUMBER <= #pageUnit# * #pageIndex#
+           ]]>     
+            
+         ORDER BY ROW_NUMBER
+           
+            
+   </select>
+   <select id="sellDAO.selectProductListImg" parameterClass="searchVO" resultClass="egovMap">
+        SELECT *
+          FROM PRODUCT A
+          LEFT OUTER JOIN IMAGE B
+            ON A.PRD_NUM = B.PRD_NUM
+          LEFT JOIN BRAND C
+            ON A.BRD_CODE = C.BRD_CODE
+         WHERE B.PRD_NUM IS NULL
+   </select>
+   <select id="sellDAO.selectProductListTotCnt" parameterClass="searchVO" resultClass="int">
+
+         SELECT COUNT(*) totcnt
+           FROM PRODUCT A
+              , BRAND B 
+              , IMAGE C 
+          WHERE 1=1
+            AND A.BRD_CODE = B.BRD_CODE 
+            AND A.PRD_NUM = C.PRD_NUM(+)
+            AND C.MAIN_IMG(+) = 'Y'
+            AND (A.PRD_NAME LIKE '%' || #searchKeyword# || '%'
+             OR B.BRD_NAME LIKE '%' || #searchKeyword# || '%')
+         
+   </select>
+   <select id="sellDAO.selectProductListUserTotCnt" parameterClass="searchVO" resultClass="int">
+  SELECT COUNT(*) totcnt
+    FROM (
+         SELECT (SELECT MIN(PRD_PRICE) FROM PRD_SELL WHERE PRD_NUM = A.PRD_NUM) MIN_PRICE
+           FROM PRODUCT A
+              , BRAND B 
+              , IMAGE C 
+          WHERE 1=1
+            AND A.BRD_CODE = B.BRD_CODE 
+            AND A.PRD_NUM = C.PRD_NUM(+)
+            AND C.MAIN_IMG(+) = 'Y'
+            AND (A.PRD_NAME LIKE '%' || #searchKeyword# || '%'
+             OR B.BRD_NAME LIKE '%' || #searchKeyword# || '%')
+          )
+   WHERE MIN_PRICE IS NOT NULL  
+         
+   </select>
+    
+   <select id="sellDAO.selectShopListTotCnt" parameterClass="searchVO" resultClass="int">
+
+         SELECT COUNT(*) totcnt
+           FROM SHOP
+          WHERE 1=1
+            AND SHOP_NAME LIKE '%' || #searchKeyword# || '%'
+         
+   </select>
+   
+   <select id="sellDAO.selectOrderListTotCnt" parameterClass="searchVO" resultClass="int">
+
+         SELECT COUNT(*) totcnt
+           FROM ORDER_INFO
+         
+   </select>
+   
+   <select id="sellDAO.selectSellListTotCnt" parameterClass="searchVO" resultClass="int">
+
+         SELECT COUNT(*) totcnt
+          FROM
+               (
+                SELECT P.PRD_NUM
+                     , P.PRD_NAME
+                     , P.BRD_CODE
+                     , B.BRD_NAME
+                     , I.IMG_ADDRESS
+                     , PS.PRD_PRICE
+                     , PS.DEL_PRICE
+                     , PS.SHOP_CODE
+                     , S.SHOP_NAME
+                     , ROW_NUMBER() OVER (ORDER BY PS.SHOP_CODE) AS ROW_NUMBER
+                  FROM PRODUCT P, BRAND B, IMAGE I, PRD_SELL PS, SHOP S
+                WHERE 1=1
+                AND P.PRD_NUM = #prdNum#
+                AND I.MAIN_IMG(+) = 'Y'
+                AND P.BRD_CODE = B.BRD_CODE
+                AND P.PRD_NUM = I.PRD_NUM(+)
+                AND P.PRD_NUM = PS.PRD_NUM
+                AND S.SHOP_CODE = PS.SHOP_CODE
+            )
+   </select>
+   <!-- <select id="loginCheck" resultClass="String">
+        SELECT user_name AS userName FROM tbl_member
+        WHERE user_id = #userId# AND user_pw = #userPw#
+    </select>
+    
+    <select id="viewMember" resultMap="member">
+        SELECT 
+            user_name AS userName,
+            user_id AS userId,
+            user_email AS userEmail,
+            user_regdate AS userRegdate
+        FROM tbl_member
+        WHERE user_id = #userId# AND user_pw = #userPw#
+    </select> -->
+
+</sqlMap>

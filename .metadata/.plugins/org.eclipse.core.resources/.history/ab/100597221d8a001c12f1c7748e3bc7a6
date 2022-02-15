@@ -1,0 +1,8 @@
+package examination;
+
+public class MainController {
+	public String select(String code){
+		
+		return code;
+	}
+}

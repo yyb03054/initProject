@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC 
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN" 
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="sellVO">
+            <field property="brdName" depends="required">
+              <arg0 key="title.sell.brdName" />
+         </field>
+           <field property="prdName" depends="required">
+              <arg0 key="title.sell.prdName" />
+         </field>
+         <field property="prdPrice" depends="required">
+                <arg0 key="title.sell.prdPrice" />
+            </field>
+           <field property="shopName" depends="required">
+              <arg0 key="title.sell.shopName" />
+         </field>
+         <field property="delName" depends="required">
+              <arg0 key="title.sell.delName" />
+         </field>
+         <field property="delPrice" depends="required">
+              <arg0 key="title.sell.delPrice" />
+         </field>
+         <!-- <field property="overseasDel" depends="required">
+              <arg0 key="title.sell.overseasDel" />
+         </field> -->
+
+        </form>
+    </formset>
+
+</form-validation>
